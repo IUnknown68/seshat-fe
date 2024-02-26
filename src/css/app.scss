@@ -1,0 +1,83 @@
+// app global css in SCSS form
+body {
+  overflow-y: scroll;
+}
+
+// Utilities
+.gap-xs {
+  gap: 4px;
+}
+
+.gap-sm {
+  gap: 8px;
+}
+
+.gap-md {
+  gap: 16px;
+}
+
+.gap-lg {
+  gap: 24px;
+}
+
+.gap-xl {
+  gap: 32px;
+}
+
+.flex-0 {
+  flex: 0 1 auto;
+}
+
+.flex-1 {
+  flex: 1 1 100%;
+}
+
+.max-full {
+  max-width: 100%;
+}
+
+.container-600 {
+  width: 100%;
+  max-width: 600px;
+}
+
+.container-800 {
+  width: 100%;
+  max-width: 800px;
+}
+
+a,
+a:hover,
+a:active {
+  color: var(--q-primary);
+}
+a:visited {
+}
+
+a.link-external,
+a[target="_blank"] {
+  &:after {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    line-height: 1em;
+    margin-left: 4px;
+    transform: translateY(3px);
+    content: "open_in_new";
+  }
+}
+
+pre {
+  background-color: white;
+  padding: 0.3em;
+  border: 1px solid #888;
+  border-radius: 0.15em;
+}
+
+blockquote {
+  margin: 0 0 0 8px;
+  padding-left: 8px;
+  color: #888;
+  border-left: 2px solid var(--q-secondary);
+}
