@@ -16,7 +16,6 @@
         outlined
         placeholder="What are you looking for?"
         class="q-ml-sm flex-1"
-        popup-content-class="q-mr-md"
       />
     </q-toolbar>
   </q-header>

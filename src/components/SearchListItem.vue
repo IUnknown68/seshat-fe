@@ -10,7 +10,7 @@
         {{item.query}}
       </q-item-label>
       <q-item-label caption>
-        {{item.date.toLocaleString()}}
+        {{timeAgo}}
       </q-item-label>
     </q-item-section>
     <q-item-section side>
@@ -30,6 +30,7 @@
 import {
   defineComponent,
 } from 'vue';
+import { useTimeAgo } from '@vueuse/core';
 
 import useSearch from 'lib/useSearch.js';
 
@@ -46,8 +47,10 @@ export default defineComponent({
 
   setup(props) {
     const { deleteSearch } = useSearch();
+    const timeAgo = useTimeAgo(props.item.date);
 
     return {
+      timeAgo,
       deleteSearch: () => deleteSearch(props.item.id),
     };
   },

@@ -4,7 +4,7 @@ import {
 } from 'vue';
 import { uid } from 'quasar';
 import axios from 'axios';
-import { useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const STORAGE_SEARCH_KEY = 'search:';
 const AXIOS_TIMEOUT = 10000;
@@ -31,9 +31,23 @@ function useSearch() {
 
 //------------------------------------------------------------------------------
 export function useSearchFromRoute() {
+  const router = useRouter();
   const route = useRoute();
-  const searchId = computed(() => route.params?.searchId);
+
+  const searchId = computed({
+    get: () => route.params?.searchId,
+
+    // "set" navigates to the result page:
+    set(newValue) {
+      if (typeof newValue !== 'string') {
+        throw new TypeError('Expected searchId to be a string.');
+      }
+      router.push({ name: 'result', params: { searchId: newValue } });
+    },
+  });
+
   const search = computed(() => mapOfSearches.get(searchId.value));
+
   return {
     searchId,
     search,
