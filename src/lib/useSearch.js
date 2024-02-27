@@ -78,6 +78,7 @@ function createSearch(query, count = SESHAT_MAX_RESULTS, start = 0) {
 //------------------------------------------------------------------------------
 async function runSearch(search) {
   try {
+    search.result = null;
     search.error = null;
     search.busy = true;
 

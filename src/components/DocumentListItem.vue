@@ -18,6 +18,7 @@
           <img :src="img" />
         </q-avatar>
       </q-item-section>
+
       <q-item-section class="cursor-pointer" @click="toggleExpanded">
         <q-item-label class="text-subtitle2">
           {{item.title}}
@@ -33,6 +34,7 @@
           />
         </q-item-label>
       </q-item-section>
+
       <q-item-section side v-if="modelValue">
         <div
           class="flex justify-center gap-xs"
@@ -82,8 +84,9 @@
         </div>
       </q-item-section>
     </template>
+
     <div class="q-px-md q-py-sm relative-position">
-      <div v-html="item.body" />
+      <div v-html="saveBody" />
     </div>
   </q-expansion-item>
 </template>
@@ -105,6 +108,7 @@ import useSearch, {
 } from 'lib/useSearch.js';
 
 import ScoreBar from 'components/ScoreBar.vue';
+import sanitize from 'lib/sanitize.js';
 
 //------------------------------------------------------------------------------
 export default defineComponent({
@@ -139,6 +143,9 @@ export default defineComponent({
 
     const result = ref('');
     const showResult = ref(null);
+
+    const saveBody = computed(() => sanitize(props.item.body));
+
     const icon = computed(() => 'article');
     const img = computed(() => null);
 
@@ -188,6 +195,7 @@ export default defineComponent({
       showResult,
       icon,
       img,
+      saveBody,
 
       updateExpanded,
       toggleExpanded,

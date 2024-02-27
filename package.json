@@ -18,9 +18,10 @@
     "@quasar/extras": "^1.16.4",
     "@vueuse/core": "^10.7.2",
     "axios": "^1.2.1",
+    "markdown-it": "^14.0.0",
     "moment": "^2.30.1",
     "quasar": "^2.6.0",
-    "sanitize-html": "^2.11.0",
+    "sanitize-html": "^2.12.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0"
   },
