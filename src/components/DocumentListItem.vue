@@ -45,7 +45,7 @@
             no-parent-event
             anchor="top middle"
             self="center middle"
-            ref="showResult"
+            ref="copyResultTooltip"
           >
             {{result}}
           </q-tooltip>
@@ -86,7 +86,7 @@
     </template>
 
     <div class="q-px-md q-py-sm relative-position">
-      <div v-html="saveBody" />
+      <div v-html="sanitizedBody" />
     </div>
   </q-expansion-item>
 </template>
@@ -142,9 +142,9 @@ export default defineComponent({
     } = useSearchFromRoute();
 
     const result = ref('');
-    const showResult = ref(null);
+    const copyResultTooltip = ref(null);
 
-    const saveBody = computed(() => sanitize(props.item.body));
+    const sanitizedBody = computed(() => sanitize(props.item.body));
 
     const icon = computed(() => 'article');
     const img = computed(() => null);
@@ -163,10 +163,10 @@ export default defineComponent({
 
     function reportCopied() {
       result.value = 'Copied!';
-      showResult.value.show();
+      copyResultTooltip.value.show();
       useTimeoutFn(() => {
-        if (showResult.value) {
-          showResult.value.hide();
+        if (copyResultTooltip.value) {
+          copyResultTooltip.value.hide();
         }
       }, 1000);
     }
@@ -192,10 +192,10 @@ export default defineComponent({
     return {
       text,
       result,
-      showResult,
+      copyResultTooltip,
       icon,
       img,
-      saveBody,
+      sanitizedBody,
 
       updateExpanded,
       toggleExpanded,

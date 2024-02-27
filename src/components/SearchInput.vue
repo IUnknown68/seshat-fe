@@ -62,7 +62,7 @@ export default defineComponent({
     } = useSearchFromRoute();
 
     const query = ref('');
-    const currentQuery = ref('');
+    const editedQuery = ref('');
     const formRef = ref(null);
     const inputRef = ref(null);
 
@@ -76,7 +76,7 @@ export default defineComponent({
         return;
       }
       query.value = '';
-      currentQuery.value = '';
+      editedQuery.value = '';
       searchId.value = createSearch(text).id;
       inputRef.value.blur();
     }
@@ -84,14 +84,14 @@ export default defineComponent({
     watch(search, (newValue, oldValue) => {
       if (!oldValue) {
         // Was not on a search result page: Store current query.
-        currentQuery.value = query.value;
+        editedQuery.value = query.value;
       }
       if (newValue) {
         // Are on a search result page now: Restore query from search.
         query.value = newValue.query;
       } else {
         // Are not a search result page now: Restore current query.
-        query.value = currentQuery.value;
+        query.value = editedQuery.value;
       }
     });
 

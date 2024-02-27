@@ -98,6 +98,7 @@ export default defineComponent({
         ? search.value.result
         : null),
     );
+
     const selectedIndex = ref(0);
 
     function setSelectedIndex(index) {
