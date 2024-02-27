@@ -1,9 +1,9 @@
 <template>
-  <div class="result-match">
-    <div class="result-match-bar" :style="style">
-      <div class="result-match-value">{{label}}</div>
+  <div class="score-bar">
+    <div class="score-bar-bar" :style="style">
+      <div class="score-bar-value">{{label}}</div>
     </div>
-    <div class="result-match-value">{{label}}</div>
+    <div class="score-bar-value">{{label}}</div>
   </div>
 </template>
 
@@ -42,7 +42,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.result-match {
+.score-bar {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -51,12 +51,12 @@ export default defineComponent({
   border-radius: 2px;
 }
 
-.result-match-value {
+.score-bar-value {
   padding-left: 4px;
   color: currentColor;
 }
 
-.result-match-bar {
+.score-bar-bar {
   position: absolute;
   left: 0;
   top: 0;
@@ -64,7 +64,7 @@ export default defineComponent({
   overflow: hidden;
   background-color: currentColor;
 
-  .result-match-value {
+  .score-bar-value {
     color: white;
   }
 }

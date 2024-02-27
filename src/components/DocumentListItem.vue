@@ -6,9 +6,16 @@
     @update:modelValue="updateExpanded"
   >
     <template v-slot:header>
-      <q-item-section side top class="cursor-pointer" @click="toggleExpanded">
-        <q-avatar size="24px">
-          <img src="/icons/heise.svg">
+      <q-item-section
+        v-if="!!img || !!icon"
+        side
+        top
+        class="cursor-pointer"
+        @click="toggleExpanded"
+      >
+        <q-avatar v-if="!!icon" :icon="icon" size="32px" />
+        <q-avatar v-else size="32px">
+          <img :src="img" />
         </q-avatar>
       </q-item-section>
       <q-item-section class="cursor-pointer" @click="toggleExpanded">
@@ -85,12 +92,17 @@
 import {
   defineComponent,
   ref,
+  computed,
 } from 'vue';
 import {
   useTextSelection,
   useTimeoutFn,
 } from '@vueuse/core';
 import { copyToClipboard } from 'quasar';
+
+import useSearch, {
+  useSearchFromRoute,
+} from 'lib/useSearch.js';
 
 import ScoreBar from 'components/ScoreBar.vue';
 
@@ -117,8 +129,18 @@ export default defineComponent({
   setup(props, { emit }) {
     const { text } = useTextSelection();
 
+    const {
+      createSearch,
+    } = useSearch();
+
+    const {
+      searchId,
+    } = useSearchFromRoute();
+
     const result = ref('');
     const showResult = ref(null);
+    const icon = computed(() => 'article');
+    const img = computed(() => null);
 
     function updateExpanded(newValue) {
       emit('update:modelValue', newValue);
@@ -129,11 +151,11 @@ export default defineComponent({
     }
 
     function searchSelectedText() {
-
+      searchId.value = createSearch(text.value).id;
     }
 
-    function report(str) {
-      result.value = str;
+    function reportCopied() {
+      result.value = 'Copied!';
       showResult.value.show();
       useTimeoutFn(() => {
         if (showResult.value) {
@@ -145,7 +167,7 @@ export default defineComponent({
     async function copySelectedText() {
       try {
         await copyToClipboard(text.value);
-        report('Copied!');
+        reportCopied();
       } catch (err) {
         console.error(err);
       }
@@ -154,7 +176,7 @@ export default defineComponent({
     async function copyBodyText() {
       try {
         await copyToClipboard(props.item.body);
-        report('Copied!');
+        reportCopied();
       } catch (err) {
         console.error(err);
       }
@@ -164,6 +186,8 @@ export default defineComponent({
       text,
       result,
       showResult,
+      icon,
+      img,
 
       updateExpanded,
       toggleExpanded,

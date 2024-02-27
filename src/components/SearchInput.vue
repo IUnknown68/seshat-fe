@@ -61,9 +61,6 @@ export default defineComponent({
       search,
     } = useSearchFromRoute();
 
-    const start = ref(0);
-    const count = ref(SESHAT_MAX_RESULTS);
-
     const query = ref('');
     const currentQuery = ref('');
     const formRef = ref(null);
@@ -80,8 +77,7 @@ export default defineComponent({
       }
       query.value = '';
       currentQuery.value = '';
-      const newSearch = createSearch(text, count.value, start.value);
-      searchId.value = newSearch.id;
+      searchId.value = createSearch(text).id;
       inputRef.value.blur();
     }
 

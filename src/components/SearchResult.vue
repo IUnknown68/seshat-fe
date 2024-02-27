@@ -1,10 +1,10 @@
 <template>
   <q-list
     separator
-    v-if="search && search.result.length"
+    v-if="resultList"
   >
     <DocumentListItem
-      v-for="(item, index) of search.result"
+      v-for="(item, index) of resultList"
       :key="item.id"
       :item="item"
       :modelValue="selectedIndex === index"
@@ -28,13 +28,14 @@
     </q-banner>
 
     <q-spinner-grid
-      v-if="search?.busy"
+      v-else-if="search.busy"
       color="primary"
       size="4em"
       class="q-mt-xl"
     />
+
     <q-banner
-      v-else-if="search?.error"
+      v-else-if="search.error"
       rounded
       class="bg-red-8 text-white"
     >
@@ -43,8 +44,9 @@
       </template>
       Error: {{search.error.message}}
     </q-banner>
+
     <q-banner
-      v-else-if="search && !search.result.length"
+      v-else
       rounded
       class="bg-grey-2"
     >
@@ -88,6 +90,14 @@ export default defineComponent({
     } = useSearch();
 
     const search = computed(() => mapOfSearches.get(props.searchId));
+
+    const resultList = computed(
+      () => ((
+        search.value?.result
+        && search.value.result.length)
+        ? search.value.result
+        : null),
+    );
     const selectedIndex = ref(0);
 
     function setSelectedIndex(index) {
@@ -99,7 +109,7 @@ export default defineComponent({
     }
 
     function setCurrentSearch() {
-      if (search.value && !search.value.busy && !search.value.result.length) {
+      if (search.value && !search.value.busy && search.value.result === null) {
         search.value.run();
       }
       selectedIndex.value = 0;
@@ -120,6 +130,7 @@ export default defineComponent({
 
     return {
       search,
+      resultList,
       selectedIndex,
 
       setSelectedIndex,

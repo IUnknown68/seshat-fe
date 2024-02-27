@@ -13,6 +13,8 @@ const storage = sessionStorage;
 const mapOfSearches = reactive(new Map());
 const listOfSearches = computed(() => [...mapOfSearches.values()].sort((a, b) => b.date - a.date));
 
+//const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 const api = axios.create({
   baseURL: '/api',
   timeout: AXIOS_TIMEOUT,
@@ -55,7 +57,7 @@ export function useSearchFromRoute() {
 }
 
 //------------------------------------------------------------------------------
-function createSearch(query, count = 5, start = 0) {
+function createSearch(query, count = SESHAT_MAX_RESULTS, start = 0) {
   const id = uid();
   const search = reactive({
     id,
@@ -65,7 +67,7 @@ function createSearch(query, count = 5, start = 0) {
     count,
     error: null,
     busy: false,
-    result: [],
+    result: null,
   });
   search.run = runSearch.bind(null, search);
   mapOfSearches.set(id, search);
@@ -89,6 +91,7 @@ async function runSearch(search) {
       ...doc,
       date: new Date(doc.date),
     }));
+
     storeSearch(search);
   } catch (err) {
     const bodyJson = err.response?.data;
