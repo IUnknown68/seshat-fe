@@ -5,7 +5,7 @@
   >
     <q-toolbar>
       <router-link :to="{name: 'home'}">
-        <q-avatar square class="q-mr-sm cursor-pointer" @click="home">
+        <q-avatar square class="q-mr-sm cursor-pointer">
           <img src="/icons/favicon-32x32.png">
           <q-tooltip class="text-no-wrap">{{title}}</q-tooltip>
         </q-avatar>
@@ -43,16 +43,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.seshat {
-  font-size: 3.4em;
-  line-height: 1em;
-  font-weight: bold;
-  flex: 0 0 auto;
-  a, a:hover, a:visited, a:active {
-    text-decoration: none;
-    color: inherit;
-  }
-}
-</style>

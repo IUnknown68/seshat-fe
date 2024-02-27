@@ -14,8 +14,11 @@ const { mkdirSync, existsSync } = require('fs');
 const { resolve, join } = require('path');
 const { spawnSync } = require('child_process');
 const { configure } = require('quasar/wrappers');
+const dotenv = require('dotenv');
 
 const pckgJson = require('./package.json');
+
+const SESHAT_VARIANT_DEFAULT = 'default';
 
 const {
   version,
@@ -23,24 +26,28 @@ const {
   description,
 } = pckgJson;
 
-function evaluateVariant(ctx) {
-  const variant = process.env.SESHAT_VARIANT || '';
+function variantConfig(ctx) {
+  // Variant and folder
+  const variant = process.env.SESHAT_VARIANT || SESHAT_VARIANT_DEFAULT;
   const variantPath = (variant === '')
     ? process.cwd()
     : resolve(process.cwd(), 'variants', variant);
 
-  require('dotenv').config({ path: join(variantPath, '.env') });
+  // .env
+  dotenv.config({ path: join(variantPath, '.env') });
 
+  // dist-dir
   const distDir = (variant === '')
     ? join(variantPath, 'dist', ctx.modeName)
     : join(variantPath, 'dist');
   mkdirSync(distDir, { recursive: true });
 
+  // Deployment
   const deployScript = (variant === '')
     ? undefined
     : resolve(variantPath, 'deploy.sh');
 
-  const deploy = (deployScript && existsSync(deployScript))
+  const onPublish = (deployScript && existsSync(deployScript))
     ? () => {
       console.log('** Deploying:');
       spawnSync(deployScript, {
@@ -56,17 +63,17 @@ function evaluateVariant(ctx) {
     variant,
     variantPath,
     distDir,
-    deploy,
+    onPublish,
   };
 }
 
-// eslint-disable-next-line no-unused-vars
 module.exports = configure((ctx) => {
   const {
+    variant,
     variantPath,
     distDir,
-    deploy,
-  } = evaluateVariant(ctx);
+    onPublish,
+  } = variantConfig(ctx);
 
   const SESHAT_VERSION = process.env.SESHAT_VERSION || version;
   const SESHAT_PRODUCT_NAME = process.env.SESHAT_PRODUCT_NAME || productName;
@@ -74,6 +81,10 @@ module.exports = configure((ctx) => {
   const SESHAT_MAX_RESULTS = parseInt(process.env.SESHAT_MAX_RESULTS, 10) || 10;
 
   return {
+    htmlVariables: {
+      SESHAT_PRODUCT_NAME,
+      SESHAT_DESCRIPTION,
+    },
     eslint: {
       // fix: true,
       // include: [],
@@ -89,8 +100,7 @@ module.exports = configure((ctx) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: [
-    ],
+    boot: [],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: [
@@ -129,6 +139,7 @@ module.exports = configure((ctx) => {
       // analyze: true,
       env: {},
       rawDefine: {
+        SESHAT_VARIANT: JSON.stringify(variant),
         SESHAT_VERSION: JSON.stringify(SESHAT_VERSION),
         SESHAT_PRODUCT_NAME: JSON.stringify(SESHAT_PRODUCT_NAME),
         SESHAT_DESCRIPTION: JSON.stringify(SESHAT_DESCRIPTION),
@@ -140,14 +151,12 @@ module.exports = configure((ctx) => {
       distDir,
       extendViteConf(viteConf) {
         viteConf.publicDir = join(variantPath, 'public');
+        viteConf.resolve.alias.lib = join(viteConf.resolve.alias.src, 'lib');
+        viteConf.resolve.alias.variant = join(variantPath, 'src');
       },
       // viteVuePluginOptions: {},
-      //vitePlugins: [],
-      onPublish() {
-        if (deploy) {
-          deploy();
-        }
-      },
+      // vitePlugins: [],
+      onPublish,
     },
 
     devServer: {

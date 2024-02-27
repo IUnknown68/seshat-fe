@@ -12,10 +12,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build",
-    "build:mjs": "SESHAT_VARIANT=mjs quasar build",
-    "build:myself": "SESHAT_VARIANT=myself quasar build",
-    "deploy:mjs": "SESHAT_VARIANT=mjs quasar build -P",
-    "deploy:myself": "SESHAT_VARIANT=myself quasar build -P"
+    "deploy": "quasar build -P"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",

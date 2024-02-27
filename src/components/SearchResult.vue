@@ -62,7 +62,7 @@ import {
   computed,
 } from 'vue';
 
-import useSearch from 'src/useSearch.js';
+import useSearch from 'lib/useSearch.js';
 import { onKeyStroke } from '@vueuse/core';
 
 import DocumentListItem from 'components/DocumentListItem.vue';

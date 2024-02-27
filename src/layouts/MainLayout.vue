@@ -4,6 +4,7 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <component v-if="!!footer" :is="footer" />
   </q-layout>
 </template>
 
@@ -15,9 +16,10 @@ import { useMeta } from 'quasar';
 
 import {
   useSearchFromRoute,
-} from 'src/useSearch.js';
+} from 'lib/useSearch.js';
 
-import MainLayoutHeader from './MainLayoutHeader.vue';
+import variant from 'variant';
+import MainLayoutHeader from 'components/MainLayoutHeader.vue';
 
 //------------------------------------------------------------------------------
 export default defineComponent({
@@ -37,7 +39,10 @@ export default defineComponent({
         ? `${SESHAT_PRODUCT_NAME} - ${search.value.query}`
         : SESHAT_PRODUCT_NAME,
     }));
-    return {};
+
+    return {
+      footer: variant.footer,
+    };
   },
 });
 </script>

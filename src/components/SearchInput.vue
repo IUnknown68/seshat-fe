@@ -46,7 +46,7 @@ import { useRouter } from 'vue-router';
 
 import useSearch, {
   useSearchFromRoute,
-} from 'src/useSearch.js';
+} from 'lib/useSearch.js';
 
 //----------------------------------------------------------------------------
 export default defineComponent({

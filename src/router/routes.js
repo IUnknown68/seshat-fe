@@ -4,7 +4,9 @@ import IndexPage from 'pages/IndexPage.vue';
 import ResultPage from 'pages/ResultPage.vue';
 import ErrorNotFound from 'pages/ErrorNotFound.vue';
 
-const routes = [
+import variant from 'variant';
+
+const topRoutes = [
   {
     path: '/',
     component: MainLayout,
@@ -14,6 +16,7 @@ const routes = [
         name: 'result',
         component: ResultPage,
       },
+      ...variant.routes || [],
       {
         path: '',
         name: 'home',
@@ -28,4 +31,4 @@ const routes = [
   },
 ];
 
-export default routes;
+export default topRoutes;

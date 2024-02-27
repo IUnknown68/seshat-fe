@@ -31,7 +31,7 @@ import {
   defineComponent,
 } from 'vue';
 
-import useSearch from 'src/useSearch.js';
+import useSearch from 'lib/useSearch.js';
 
 //------------------------------------------------------------------------------
 export default defineComponent({

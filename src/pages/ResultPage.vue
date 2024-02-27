@@ -11,7 +11,7 @@ import {
 
 import {
   useSearchFromRoute,
-} from 'src/useSearch.js';
+} from 'lib/useSearch.js';
 
 import SearchResult from 'components/SearchResult.vue';
 
