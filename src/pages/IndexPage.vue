@@ -25,8 +25,8 @@
         </div>
         <p>
           <a href="https://en.wikipedia.org/wiki/Semantic_search" target="_blank">
-            Semantic search</a> allows you to search my meaning rather than
-            the words you use ("lexical search").
+            Semantic search</a> allows you to search by meaning rather than
+            by the words you use ("lexical search").
         </p>
         <q-banner class="bg-grey-2 q-mb-md">
           <i>Example:</i> "<strong>Sounds pets make</strong>" might turn up a
@@ -40,7 +40,7 @@
         </p>
         <p>
           Also the <strong>input language</strong> does not matter, data will be found
-          regardless of the input language. Yet the datasets
+          regardless of the prompt language. Yet the datasets
           will always be in the language they were originally, no translation
           is happening.
         </p>

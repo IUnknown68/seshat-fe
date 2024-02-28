@@ -132,7 +132,8 @@ export default defineComponent({
 
     function keystrokeHandler(increment) {
       return (e) => {
-        if (e.target.tagName === 'INPUT') {
+        if ((e.target instanceof HTMLInputElement)
+          || (e.target instanceof HTMLTextAreaElement)) {
           return;
         }
         e.preventDefault();

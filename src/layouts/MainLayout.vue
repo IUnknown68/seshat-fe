@@ -5,6 +5,11 @@
       <router-view />
     </q-page-container>
     <component v-if="!!footer" :is="footer" />
+    <q-ajax-bar
+      position="top"
+      color="primary"
+      size="4px"
+    />
   </q-layout>
 </template>
 

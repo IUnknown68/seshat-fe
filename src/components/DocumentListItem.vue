@@ -83,9 +83,9 @@
             size="sm"
             padding="sm"
             icon="file_copy"
-            @click="copyBodyText"
+            @click="copyDocument"
           >
-            <q-tooltip>Copy whole text</q-tooltip>
+            <q-tooltip>Copy whole document</q-tooltip>
           </q-btn>
         </div>
       </q-item-section>
@@ -186,9 +186,10 @@ export default defineComponent({
       }
     }
 
-    async function copyBodyText() {
+    async function copyDocument() {
       try {
-        await copyToClipboard(props.item.body);
+        const text = `${props.item.title}\n\n${props.item.date.toLocaleString()}\n\n${props.item.body}`;
+        await copyToClipboard(text);
         reportCopied();
       } catch (err) {
         console.error(err);
@@ -207,7 +208,7 @@ export default defineComponent({
       toggleExpanded,
       searchSelectedText,
       copySelectedText,
-      copyBodyText,
+      copyDocument,
     };
   },
 });

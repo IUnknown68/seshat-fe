@@ -3,7 +3,7 @@ import MarkdownIt from 'markdown-it';
 
 const sanitizeHtmlSettings = {
   allowedTags: [
-    'b', 'p', 'i', 'u', 'li', 'ul', 'ol', 'strong', 'blockquote', 'a'
+    'b', 'p', 'i', 'u', 'li', 'ul', 'ol', 'strong', 'blockquote', 'a',
   ],
   allowedAttributes: {
     a: ['href'],
@@ -19,6 +19,7 @@ const md = new MarkdownIt({
 md.linkify.set({ target: '_blank' });
 
 //------------------------------------------------------------------------------
+// Allow any html by default - trust source.
 function sanitize(src, checkHtml) {
   return checkHtml
     ? md.render(sanitizeHtml(src, sanitizeHtmlSettings))
