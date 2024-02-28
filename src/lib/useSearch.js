@@ -57,41 +57,40 @@ export function useSearchFromRoute() {
 }
 
 //------------------------------------------------------------------------------
-function createSearch(query, count = SESHAT_MAX_RESULTS, start = 0) {
+function createSearch(query) {
   const id = uid();
   const search = reactive({
     id,
     date: new Date(),
     query,
-    start,
-    count,
     error: null,
     busy: false,
-    result: null,
+    result: [],
   });
+
   search.run = runSearch.bind(null, search);
+
   mapOfSearches.set(id, search);
   storeSearch(search);
   return search;
 }
 
 //------------------------------------------------------------------------------
-async function runSearch(search) {
+async function runSearch(search, count = SESHAT_RESULTS_PER_PAGE) {
   try {
-    search.result = null;
     search.error = null;
     search.busy = true;
 
     const response = await api.post('query', {
       query: search.query,
-      start: search.start,
-      count: search.count,
+      start: search.result.length,
+      count,
     });
 
-    search.result = response.data.map((doc) => reactive({
+    search.result.push(...response.data.map((doc) => reactive({
       ...doc,
       date: new Date(doc.date),
-    }));
+    })));
 
     storeSearch(search);
   } catch (err) {
@@ -146,7 +145,7 @@ function reviver(key, value) {
 
 //------------------------------------------------------------------------------
 function replacer(key, value) {
-  if (['error', 'busy'].includes(key)) {
+  if (['error', 'busy', 'start', 'count'].includes(key)) {
     return undefined;
   }
   return value;

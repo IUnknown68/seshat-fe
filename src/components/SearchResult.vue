@@ -1,19 +1,5 @@
 <template>
-  <q-list
-    separator
-    v-if="resultList"
-  >
-    <DocumentListItem
-      v-for="(item, index) of resultList"
-      :key="item.id"
-      :item="item"
-      :modelValue="selectedIndex === index"
-      @update:modelValue="() => setSelectedIndex(index)"
-    />
-  </q-list>
-
   <div
-    v-else
     class="flex justify-center q-pa-md"
   >
     <q-banner
@@ -27,31 +13,61 @@
       Search with id <strong>{{searchId}}</strong> does not exist.
     </q-banner>
 
-    <q-spinner-grid
-      v-else-if="search.busy"
-      color="primary"
-      size="4em"
-      class="q-mt-xl"
-    />
-
-    <q-banner
-      v-else-if="search.error"
-      rounded
-      class="bg-red-8 text-white"
-    >
-      <template v-slot:avatar>
-        <q-icon name="error" />
-      </template>
-      Error: {{search.error.message}}
-    </q-banner>
-
-    <q-banner
+    <template
       v-else
-      rounded
-      class="bg-grey-2"
     >
-      No results.
-    </q-banner>
+      <q-banner
+        v-if="search.error"
+        rounded
+        class="bg-red-8 text-white"
+      >
+        <template v-slot:avatar>
+          <q-icon name="error" />
+        </template>
+        Error: {{search.error.message}}
+      </q-banner>
+
+      <template
+        v-if="resultList"
+      >
+        <q-list
+          separator
+          class="flex-1"
+        >
+          <DocumentListItem
+            v-for="(item, index) of resultList"
+            :key="item.id"
+            :item="item"
+            :modelValue="selectedIndex === index"
+            @update:modelValue="() => setSelectedIndex(index)"
+          />
+        </q-list>
+        <div class="flex-1 flex justify-end items-center q-pa-md" >
+          <q-btn
+            unelevated
+            :disabled="search.busy"
+            color="secondary"
+            label="Load More"
+            @click="loadMore"
+          />
+        </div>
+      </template>
+
+      <q-spinner-grid
+        v-else-if="search.busy"
+        color="secondary"
+        size="4em"
+        class="q-mt-xl"
+      />
+
+      <q-banner
+        v-else-if="!search.error"
+        rounded
+        class="bg-grey-2"
+      >
+        No results.
+      </q-banner>
+    </template>
   </div>
 </template>
 
@@ -92,9 +108,7 @@ export default defineComponent({
     const search = computed(() => mapOfSearches.get(props.searchId));
 
     const resultList = computed(
-      () => ((
-        search.value?.result
-        && search.value.result.length)
+      () => ((search.value.result.length)
         ? search.value.result
         : null),
     );
@@ -110,21 +124,30 @@ export default defineComponent({
     }
 
     function setCurrentSearch() {
-      if (search.value && !search.value.busy && search.value.result === null) {
+      if (search.value && !search.value.busy && !search.value.result.length) {
         search.value.run();
       }
       selectedIndex.value = 0;
     }
 
-    onKeyStroke(['ArrowRight', 'ArrowDown'], (e) => {
-      e.preventDefault();
-      setSelectedIndex(selectedIndex.value + 1);
-    });
+    function keystrokeHandler(increment) {
+      return (e) => {
+        if (e.target.tagName === 'INPUT') {
+          return;
+        }
+        e.preventDefault();
+        setSelectedIndex(selectedIndex.value + increment);
+      };
+    }
 
-    onKeyStroke(['ArrowLeft', 'ArrowUp'], (e) => {
-      e.preventDefault();
-      setSelectedIndex(selectedIndex.value - 1);
-    });
+    function loadMore() {
+      if (search.value && !search.value.busy) {
+        search.value.run();
+      }
+    }
+
+    onKeyStroke(['ArrowRight', 'ArrowDown'], keystrokeHandler(1));
+    onKeyStroke(['ArrowLeft', 'ArrowUp'], keystrokeHandler(-1));
 
     watch(search, setCurrentSearch);
     onMounted(setCurrentSearch);
@@ -135,6 +158,7 @@ export default defineComponent({
       selectedIndex,
 
       setSelectedIndex,
+      loadMore,
     };
   },
 });

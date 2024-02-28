@@ -24,15 +24,30 @@
           Semantic search
         </div>
         <p>
-          Enter a text in the search input above. Note that this is not a
-          keyword search, it uses AI to understand what you actually mean.
+          <a href="https://en.wikipedia.org/wiki/Semantic_search" target="_blank">
+            Semantic search</a> allows you to search my meaning rather than
+            the words you use ("lexical search").
+        </p>
+        <q-banner class="bg-grey-2 q-mb-md">
+          <i>Example:</i> "<strong>Sounds pets make</strong>" might turn up a
+          dataset containing the word "<strong>meow</strong>".
+        </q-banner>
+        <p>
+          Note also that a semantic search will <strong>always</strong> return
+          <strong>something</strong>, since it goes for the best fit. If that
+          doesn't look related to your query, then this means, there is no better
+          (means: more related) data in the database.
         </p>
         <p>
-          <strong>Example:</strong> "<i>Sounds pets make</i>" might turn up a
-          dataset containing the word "meow".
+          Also the <strong>input language</strong> does not matter, data will be found
+          regardless of the input language. Yet the datasets
+          will always be in the language they were originally, no translation
+          is happening.
         </p>
         <p>
-          Once you have recent searches, they will appear here.
+          <strong>Once you have recent searches, they will appear here.</strong>
+          They are stored in your browser's session storage, means they will be
+          deleted when you close your current browser(-session).
         </p>
       </div>
     </div>

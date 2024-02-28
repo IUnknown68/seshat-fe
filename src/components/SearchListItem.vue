@@ -3,7 +3,7 @@
     clickable
     v-ripple
     :to="{name: 'result', params: { searchId: item.id }}"
-    exact
+    class="text-primary"
   >
     <q-item-section>
       <q-item-label class="text-subtitle2">

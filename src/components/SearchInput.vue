@@ -41,6 +41,7 @@ import {
   defineComponent,
   ref,
   watch,
+  onMounted,
 } from 'vue';
 
 import useSearch, {
@@ -92,6 +93,12 @@ export default defineComponent({
       } else {
         // Are not a search result page now: Restore current query.
         query.value = editedQuery.value;
+      }
+    });
+
+    onMounted(() => {
+      if (search.value) {
+        query.value = search.value.query;
       }
     });
 

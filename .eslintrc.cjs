@@ -50,7 +50,7 @@ module.exports = {
     SESHAT_VERSION: 'readonly',
     SESHAT_PRODUCT_NAME: 'readonly',
     SESHAT_DESCRIPTION: 'readonly',
-    SESHAT_MAX_RESULTS: 'readonly',
+    SESHAT_RESULTS_PER_PAGE: 'readonly',
   },
 
   // add your custom rules here

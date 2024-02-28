@@ -50,6 +50,7 @@ Some light branding and specialization is happening there, currently that's:
 
 - Product name, description and version.
 - Icons and images - everything in `public`.
+- Brand colors.
 - Optional footer.
 - Optional routes, additional pages.
 
@@ -60,6 +61,7 @@ Structure of a variant folder:
   │  │          mirror the directory structure from /src in the
   │  │          project root.
   │  ├ ...      Whatever you need: Components, pages etc.
+  │  ├ quasar.variables.scss   Required: Brand colors.
   │  └ index.js Required, see below
   ├ public      Required, icons and such (the same as public in the
   │             project root)
@@ -110,4 +112,5 @@ SESHAT_PRODUCT_NAME="SuperSearch"
 # Description. If not present, taken from package.json
 SESHAT_DESCRIPTION="My cool app"
 # Max search results to return. Defaults to 10.
-SESHAT_MAX_RESULTS=10
+SESHAT_RESULTS_PER_PAGE=10
+```

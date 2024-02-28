@@ -78,7 +78,7 @@ module.exports = configure((ctx) => {
   const SESHAT_VERSION = process.env.SESHAT_VERSION || version;
   const SESHAT_PRODUCT_NAME = process.env.SESHAT_PRODUCT_NAME || productName;
   const SESHAT_DESCRIPTION = process.env.SESHAT_DESCRIPTION || description;
-  const SESHAT_MAX_RESULTS = parseInt(process.env.SESHAT_MAX_RESULTS, 10) || 10;
+  const SESHAT_RESULTS_PER_PAGE = parseInt(process.env.SESHAT_RESULTS_PER_PAGE, 10) || 10;
 
   return {
     htmlVariables: {
@@ -143,7 +143,7 @@ module.exports = configure((ctx) => {
         SESHAT_VERSION: JSON.stringify(SESHAT_VERSION),
         SESHAT_PRODUCT_NAME: JSON.stringify(SESHAT_PRODUCT_NAME),
         SESHAT_DESCRIPTION: JSON.stringify(SESHAT_DESCRIPTION),
-        SESHAT_MAX_RESULTS,
+        SESHAT_RESULTS_PER_PAGE,
       },
       // ignorePublicFolder: true,
       // minify: false,

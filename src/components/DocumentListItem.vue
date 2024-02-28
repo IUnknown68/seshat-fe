@@ -13,7 +13,13 @@
         class="cursor-pointer"
         @click="toggleExpanded"
       >
-        <q-avatar v-if="!!icon" :icon="icon" size="32px" />
+        <q-avatar
+          v-if="!!icon"
+          :icon="icon"
+          size="32px"
+          font-size="24px"
+          text-color="primary"
+        />
         <q-avatar v-else size="32px">
           <img :src="img" />
         </q-avatar>
@@ -28,7 +34,7 @@
         </q-item-label>
         <q-item-label>
           <ScoreBar
-            class="text-secondary"
+            class="text-primary"
             style="width:120px;font-size:0.5rem;line-height: 1.2em"
             :value="1 - item.vectorScore"
           />
